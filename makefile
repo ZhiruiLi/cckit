@@ -1,2 +1,2 @@
 all:
-	go build -o cctoo
+	go build -o cctool
