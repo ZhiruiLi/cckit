@@ -1,4 +1,4 @@
-module github.com/zhiruili/cctool
+module github.com/zhiruili/cckit
 
 go 1.14
 

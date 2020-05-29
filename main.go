@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/zhiruili/cctool/cmd"
+import "github.com/zhiruili/cckit/cmd"
 
 func main() {
 	cmd.Execute()

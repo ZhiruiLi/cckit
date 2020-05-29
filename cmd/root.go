@@ -29,7 +29,7 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "cctool",
+	Use:   "cckit",
 	Short: "Tools for cocos creator",
 	Long:  `Tools for cocos creator`,
 	// Uncomment the following line if your bare application
@@ -48,7 +48,7 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cctool.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cckit.yaml)")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -63,9 +63,9 @@ func initConfig() {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		// Search config in home directory with name ".cctool" (without extension).
+		// Search config in home directory with name ".cckit" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".cctool")
+		viper.SetConfigName(".cckit")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
