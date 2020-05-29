@@ -1,4 +1,4 @@
-module github.com/ZhiruiLi/CocosTools
+module github.com/zhiruili/cctool
 
 go 1.14
 
