@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/ZhiruiLi/CocosTools/cmd"
+import "github.com/zhiruili/cctool/cmd"
 
 func main() {
 	cmd.Execute()
