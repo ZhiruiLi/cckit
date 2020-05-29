@@ -33,7 +33,7 @@ testRoot.pannel2.panel3.img32
 ```
 
 ```bash
-./cckit lsnode --cuthead=1 --prefix='root' --suffix='.node' --nprefix='["' --nsuffix='"]' ~/projects/mygame/assets/resources/example.prefab
+./cckit lsnode --cuthead=1 --maxdepth=3 --prefix='root' --suffix='.node' --nprefix='["' --nsuffix='"]' ~/projects/mygame/assets/resources/example.prefab
 ```
 
 Output:
@@ -42,6 +42,5 @@ Output:
 root["pannel1"]["img11"].node
 root["pannel1"]["img12"].node
 root["pannel2"]["img21"].node
-root["pannel2"]["panel3"]["img31"].node
-root["pannel2"]["panel3"]["img32"].node
+root["pannel2"]["panel3"].node
 ```

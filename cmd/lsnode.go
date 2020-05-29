@@ -28,8 +28,8 @@ import (
 )
 
 var (
-	cutHead uint = 0
-	cutTail uint = 0
+	cutHead  uint = 0
+	maxDepth uint = 0
 )
 
 var (
@@ -107,9 +107,12 @@ type prefabNode struct {
 	ccNodeChilden []*prefabNode
 }
 
-func cutNameList(nameList []string, cutHead, cutTail uint) []string {
-	beg := int(cutHead)
-	end := len(nameList) - int(cutTail)
+func cutNameList(nameList []string, cutHead, maxDepth uint) []string {
+	beg := cutHead
+	end := uint(len(nameList))
+	if maxDepth > 0 && maxDepth <= end {
+		end = maxDepth
+	}
 	if beg < end {
 		return nameList[beg:end]
 	}
@@ -227,10 +230,15 @@ var lsnodeCmd = &cobra.Command{
 				nPrefix: nPrefix,
 				nSuffix: nSuffix,
 			}
+			hasPrinted := make(map[string]bool)
 			for _, nameList := range nestedNameList {
-				newNameList := cutNameList(nameList, cutHead, cutTail)
+				newNameList := cutNameList(nameList, cutHead, maxDepth)
 				if len(newNameList) > 0 {
-					fmt.Println(fmtNameList(newNameList, &fmtOpt))
+					str := fmtNameList(newNameList, &fmtOpt)
+					if printed := hasPrinted[str]; !printed {
+						fmt.Println(str)
+						hasPrinted[str] = true
+					}
 				}
 			}
 		}
@@ -239,8 +247,8 @@ var lsnodeCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(lsnodeCmd)
-	lsnodeCmd.PersistentFlags().UintVarP(&cutHead, "cuthead", "", 0, "Remove N-levels from root")
-	lsnodeCmd.PersistentFlags().UintVarP(&cutTail, "cuttail", "", 0, "Remove N-levels from leaf")
+	lsnodeCmd.PersistentFlags().UintVarP(&cutHead, "cuthead", "", 0, "Remove N nodes from root")
+	lsnodeCmd.PersistentFlags().UintVarP(&maxDepth, "maxdepth", "", 0, "Maximum depth level from root")
 	lsnodeCmd.PersistentFlags().StringVarP(&prefix, "prefix", "", "", "Prefix string of each node lists")
 	lsnodeCmd.PersistentFlags().StringVarP(&suffix, "suffix", "", "", "Suffix string of each node lists")
 	lsnodeCmd.PersistentFlags().StringVarP(&sep, "sep", "", "", "Separator between each nodes")
