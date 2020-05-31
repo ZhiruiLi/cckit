@@ -146,9 +146,8 @@ func insertCCData(nodes []*Node) error {
 		if node.Parent.ID != 0 {
 			if !inRange(node.Parent.ID, nodes) {
 				return fmt.Errorf("parent:%d no found for node %s:%s", node.Parent.ID, node.Type, node.Name)
-			} else {
-				node.CCParent = nodes[node.Parent.ID]
 			}
+			node.CCParent = nodes[node.Parent.ID]
 		}
 		for _, ch := range node.Children {
 			if !inRange(ch.ID, nodes) {
