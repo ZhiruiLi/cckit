@@ -53,7 +53,7 @@ type Node struct {
 	Prefab struct {
 		ID int `json:"__id__"`
 	} `json:"_prefab"`
-	Opacity int `json:"_opacity"`
+	Opacity float64 `json:"_opacity"`
 	Color   struct {
 		Type string `json:"__type__"`
 		R    int    `json:"r"`
@@ -107,12 +107,12 @@ type Node struct {
 	SizeMode   int `json:"_sizeMode"`
 	FillType   int `json:"_fillType"`
 	FillCenter struct {
-		Type string `json:"__type__"`
-		X    int    `json:"x"`
-		Y    int    `json:"y"`
+		Type string  `json:"__type__"`
+		X    float64 `json:"x"`
+		Y    float64 `json:"y"`
 	} `json:"_fillCenter"`
-	FillStart     int         `json:"_fillStart"`
-	FillRange     int         `json:"_fillRange"`
+	FillStart     float64     `json:"_fillStart"`
+	FillRange     float64     `json:"_fillRange"`
 	IsTrimmedMode bool        `json:"_isTrimmedMode"`
 	State         int         `json:"_state"`
 	Atlas         interface{} `json:"_atlas"`

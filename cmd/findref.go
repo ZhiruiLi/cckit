@@ -21,7 +21,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/facebookgo/symwalk"
 	"github.com/spf13/cobra"
 	"github.com/zhiruili/cckit/meta"
 	"github.com/zhiruili/cckit/prefab"
@@ -79,22 +78,16 @@ func findInPrefab(tars []*target, path string, pf *prefab.Prefab) ([]*info, erro
 
 func findInDir(tars []*target, path string) ([]*info, error) {
 	var is []*info
-	err := symwalk.Walk(path, func(subpath string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if info.IsDir() {
-			return nil
-		}
-		tmp, err := findInFile(tars, subpath)
-		if err != nil {
-			return err
-		}
-		is = append(is, tmp...)
-		return nil
-	})
+	fs, err := filepath.Glob(filepath.Join(path, "*"))
 	if err != nil {
 		return nil, err
+	}
+	for _, f := range fs {
+		tmp, err := findInFile(tars, f)
+		if err != nil {
+			return nil, err
+		}
+		is = append(is, tmp...)
 	}
 	return is, nil
 }
@@ -123,12 +116,18 @@ func findInFile(tars []*target, path string) ([]*info, error) {
 
 func findAll(tars []*target, filenames []string) ([]*info, error) {
 	var is []*info
-	for _, f := range filenames {
-		tmp, err := findInFile(tars, f)
+	for _, f1 := range filenames {
+		subs, err := filepath.Glob(f1)
 		if err != nil {
 			return nil, err
 		}
-		is = append(is, tmp...)
+		for _, f2 := range subs {
+			tmp, err := findInFile(tars, f2)
+			if err != nil {
+				return nil, err
+			}
+			is = append(is, tmp...)
+		}
 	}
 	return is, nil
 }
@@ -205,6 +204,9 @@ var findrefCmd = &cobra.Command{
 			return
 		}
 		is, err := findAll(tars, scopes)
+		if err != nil {
+			log.Fatalln(err)
+		}
 		for _, i := range is {
 			s := fmtInfo(i, len(tars) <= 1)
 			fmt.Println(s)
