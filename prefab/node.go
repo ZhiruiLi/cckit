@@ -153,16 +153,14 @@ func insertCCData(nodes []*Node) error {
 		for _, ch := range node.Children {
 			if !inRange(ch.ID, nodes) {
 				return fmt.Errorf("child:%d no found for node %s:%s", ch.ID, node.Type, node.Name)
-			} else {
-				node.CCChildren = append(node.CCChildren, nodes[ch.ID])
 			}
+			node.CCChildren = append(node.CCChildren, nodes[ch.ID])
 		}
 		for _, co := range node.Components {
 			if !inRange(co.ID, nodes) {
 				return fmt.Errorf("component:%d no found for node %s:%s", co.ID, node.Type, node.Name)
-			} else {
-				node.CCComponents = append(node.CCComponents, nodes[co.ID])
 			}
+			node.CCComponents = append(node.CCComponents, nodes[co.ID])
 		}
 	}
 	return nil
