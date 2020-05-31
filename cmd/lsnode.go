@@ -75,7 +75,7 @@ func listChildrenNamesFromRoot(root *prefab.Node) [][]string {
 	return reversed
 }
 
-type fmtOptions struct {
+type lsnodeFmtOptions struct {
 	prefix  string
 	suffix  string
 	sep     string
@@ -83,7 +83,7 @@ type fmtOptions struct {
 	nSuffix string
 }
 
-func fmtNameList(nameList []string, opts *fmtOptions) string {
+func fmtNameList(nameList []string, opts *lsnodeFmtOptions) string {
 	var newNameList []string
 	for _, name := range nameList {
 		newNameList = append(newNameList, opts.nPrefix+name+opts.nSuffix)
@@ -105,7 +105,7 @@ var lsnodeCmd = &cobra.Command{
 				log.Fatalf("%s:root node not found", filename)
 			}
 			nestedNameList := listChildrenNamesFromRoot(pf.Root)
-			fmtOpt := fmtOptions{
+			fmtOpt := lsnodeFmtOptions{
 				prefix:  prefix,
 				suffix:  suffix,
 				sep:     sep,

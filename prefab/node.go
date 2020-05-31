@@ -96,11 +96,32 @@ type Node struct {
 	SkewY      float64 `json:"_skewY"`
 	GroupIndex int     `json:"groupIndex"`
 	ID         string  `json:"_id"`
+	Node       struct {
+		ID int `json:"__id__"`
+	} `json:"node"`
+	SrcBlendFactor int `json:"_srcBlendFactor"`
+	DstBlendFactor int `json:"_dstBlendFactor"`
+	SpriteFrame    struct {
+		UUID string `json:"__uuid__"`
+	} `json:"_spriteFrame"`
+	SizeMode   int `json:"_sizeMode"`
+	FillType   int `json:"_fillType"`
+	FillCenter struct {
+		Type string `json:"__type__"`
+		X    int    `json:"x"`
+		Y    int    `json:"y"`
+	} `json:"_fillCenter"`
+	FillStart     int         `json:"_fillStart"`
+	FillRange     int         `json:"_fillRange"`
+	IsTrimmedMode bool        `json:"_isTrimmedMode"`
+	State         int         `json:"_state"`
+	Atlas         interface{} `json:"_atlas"`
 
-	LocalContext interface{} `json:"-"`
-	CCParent     *Node       `json:"-"`
-	CCChildren   []*Node     `json:"-"`
-	CCComponents []*Node     `json:"-"`
+	CCID         int     `json:"-"`
+	CCParent     *Node   `json:"-"`
+	CCChildren   []*Node `json:"-"`
+	CCNode       *Node   `json:"-"`
+	CCComponents []*Node `json:"-"`
 }
 
 // ParseData 解析字节数组形式的 prefab 数据
@@ -142,7 +163,8 @@ func inRange(idx int, nodes []*Node) bool {
 }
 
 func insertCCData(nodes []*Node) error {
-	for _, node := range nodes {
+	for i, node := range nodes {
+		node.CCID = i
 		if node.Parent.ID != 0 {
 			if !inRange(node.Parent.ID, nodes) {
 				return fmt.Errorf("parent:%d no found for node %s:%s", node.Parent.ID, node.Type, node.Name)
@@ -154,6 +176,12 @@ func insertCCData(nodes []*Node) error {
 				return fmt.Errorf("child:%d no found for node %s:%s", ch.ID, node.Type, node.Name)
 			}
 			node.CCChildren = append(node.CCChildren, nodes[ch.ID])
+		}
+		if node.Node.ID != 0 {
+			if !inRange(node.Node.ID, nodes) {
+				return fmt.Errorf("node:%d no found for node %s:%s", node.Node.ID, node.Type, node.Name)
+			}
+			node.CCNode = nodes[node.Node.ID]
 		}
 		for _, co := range node.Components {
 			if !inRange(co.ID, nodes) {
