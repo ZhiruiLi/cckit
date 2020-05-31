@@ -129,11 +129,11 @@ var lsnodeCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(lsnodeCmd)
-	lsnodeCmd.PersistentFlags().UintVarP(&cutHead, "cuthead", "", 0, "Remove N nodes from root")
-	lsnodeCmd.PersistentFlags().UintVarP(&maxDepth, "maxdepth", "", 0, "Maximum depth level from root")
-	lsnodeCmd.PersistentFlags().StringVarP(&prefix, "prefix", "", "", "Prefix string of each node lists")
-	lsnodeCmd.PersistentFlags().StringVarP(&suffix, "suffix", "", "", "Suffix string of each node lists")
-	lsnodeCmd.PersistentFlags().StringVarP(&sep, "sep", "", "", "Separator between each nodes")
-	lsnodeCmd.PersistentFlags().StringVarP(&nPrefix, "nprefix", "", "", "Prefix string of each nodes in node lists")
-	lsnodeCmd.PersistentFlags().StringVarP(&nSuffix, "nsuffix", "", "", "Suffix string of each nodes in node lists")
+	lsnodeCmd.PersistentFlags().UintVarP(&cutHead, "cuthead", "h", 0, "Remove N nodes from root")
+	lsnodeCmd.PersistentFlags().UintVarP(&maxDepth, "maxdepth", "d", 0, "Maximum depth level from root")
+	lsnodeCmd.PersistentFlags().StringVarP(&prefix, "prefix", "P", "", "Prefix string of each node lists")
+	lsnodeCmd.PersistentFlags().StringVarP(&suffix, "suffix", "S", "", "Suffix string of each node lists")
+	lsnodeCmd.PersistentFlags().StringVarP(&sep, "sep", "e", "", "Separator between each nodes")
+	lsnodeCmd.PersistentFlags().StringVarP(&nPrefix, "nprefix", "p", "", "Prefix string of each nodes in node lists")
+	lsnodeCmd.PersistentFlags().StringVarP(&nSuffix, "nsuffix", "s", "", "Suffix string of each nodes in node lists")
 }
